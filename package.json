@@ -1,6 +1,5 @@
 {
   "name": "candy-machine-mint",
-  "homepage": "https://3ccapital.github.io/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
