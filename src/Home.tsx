@@ -9,7 +9,7 @@ import * as anchor from "@project-serum/anchor";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 
 import { useAnchorWallet } from "@solana/wallet-adapter-react";
-import { WalletDialogButton } from "@solana/wallet-adapter-material-ui";
+import { WalletDisconnectButton, WalletDialogButton } from "@solana/wallet-adapter-material-ui";
 
 import {
   CandyMachine,
@@ -22,6 +22,8 @@ import {
 import background from "./images/banner.png"
 
 const ConnectButton = styled(WalletDialogButton)``;
+
+const DisconnectButton = styled(WalletDisconnectButton)``;
 
 const CounterText = styled.span``; // add your styles here
 
@@ -179,6 +181,7 @@ const Home = (props: HomeProps) => {
             {wallet && <p> Wallet: {shortenAddress(wallet.publicKey.toBase58() || "")}</p>}
             {wallet && <p className="px-2">  | </p>}
             {wallet && <p> Balance: {(balance || 0).toLocaleString()} SOL </p>}
+            {wallet && (<DisconnectButton>Log Out</DisconnectButton>)}
           </div>
         </div>
         <div className="row row-cols-sm-1 row-cols-md-2">
