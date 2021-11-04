@@ -171,83 +171,93 @@ const Home = (props: HomeProps) => {
   
   return (
     <main>
-      <div style={{ backgroundImage: `url(${background})`, backgroundRepeat: 'no-repeat', height:'100%' }}>
-        <div className="navbar">
-          <div className="col px-5">
-            <h1>Scratch A.I.</h1>
-          </div>
-          <div className="d-flex flex-wrap justify-content-center px-5">
-            {!wallet && (<ConnectButton>Connect Wallet</ConnectButton>)}
-            {wallet && <p> Wallet: {shortenAddress(wallet.publicKey.toBase58() || "")}</p>}
-            {wallet && <p className="px-2">  | </p>}
-            {wallet && <p> Balance: {(balance || 0).toLocaleString()} SOL </p>}
-            {wallet && (<DisconnectButton>Log Out</DisconnectButton>)}
-          </div>
+      <div className="navbar">
+        <div className="col px-2">
+          <h1>Scratch A.I.</h1>
         </div>
-        <div className="row row-cols-sm-1 row-cols-md-2">
-          <div className="col px-5">
-            <p>Organic Growth</p>
-            <p>Long Term</p>
-            <p>No Hype</p>
+        <div className="d-flex flex-wrap justify-content-center">
+          <a className="nav-link" href="#About">About</a>
+          <a className="nav-link" href="#Roadmap">Roadmap</a>
+          <a className="nav-link" href="#">Utility</a>
+          <a className="nav-link" href="#">Team</a>
+          {!wallet && (<ConnectButton>Connect Wallet</ConnectButton>)}
+          {wallet && (<DisconnectButton>Log Out</DisconnectButton>)}
+        </div>
+      </div>
+      <div className="row row-cols-sm-1 row-cols-md-2 p-2 m-0" style={{ backgroundImage: `url(${background})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
+        <div className="jumbotron">
+          <br/>
+          <h3 className="display-4">Organic Growth</h3>
+          <h3 className="display-4">Long Term</h3>
+          <h3 className="display-4">Not Just Hype</h3>
+          <hr className="my-4"/>
+          <p>Algorithmic, A.I. & NFT based multiasset Investment Fund... built from scratch :]</p>
+          <br/>
+        </div>
+        <div className="d-flex flex-column align-items-center px-5">
+          <br/>
+          <br/>
+          <div className="d-flex flex-wrap justify-content-center">
+            <h5>Mint a Scratch</h5>
           </div>
-          <div className="d-flex flex-column align-items-center px-5">
-            <div className="d-flex flex-wrap justify-content-center">
-              <h5>Mint a Scratch</h5>
-            </div>
-            <div className="d-flex flex-wrap justify-content-center">
-              <p className="fs-6-ligh">Minting will give you the perks of a Scratch Partner, the fee to help this going from scratch to hatch is 3 SOL.</p>
-            </div>
-            <div className="d-flex flex-wrap justify-content-center">
-              <MintContainer>
-                <div className="d-flex flex-wrap justify-content-center">
-                  {wallet && <p className="px-2">Total Cavienant: {itemsAvailable}</p>}
-                  {wallet && <p className="px-2">Released: {itemsRedeemed}</p>}
-                  {wallet && <p className="px-2">Awaiting: {itemsRemaining}</p>}
-                </div>
-                <div className="d-flex flex-wrap justify-content-center">
-                  <Button style ={{padding: "0px"}}
-                    disabled={isSoldOut || isMinting || !isActive}
-                    onClick={onMint}
-                    variant="contained"
-                    >                  
-                    {isSoldOut ? <p className="p-2 m-0">SOLD OUT</p> : (isActive && (isMinting ? (<CircularProgress />) : (wallet ? <p className="p-2 m-0">RELEASE 1</p> : (<ConnectButton>Connect Wallet</ConnectButton>))))}
-                    <Countdown date={1632615120 * 1000}
-                        onMount={({ completed }) => completed && setIsActive(true)}
-                        onComplete={() => setIsActive(true)}
-                        renderer={renderCounter}
-                        />
-                  </Button>
-                </div>
-              </MintContainer>
-              <Snackbar
-                open={alertState.open}
-                autoHideDuration={6000}
+          <div className="d-flex flex-wrap justify-content-center">
+            <p className="fs-6-light">Minting will give you the perks of a Scratch Partner, the fee to help this going from scratch to hatch is 3 SOL.</p>
+          </div>
+          <div className="d-flex flex-wrap justify-content-center">
+            <MintContainer>
+              <div className="d-flex flex-wrap justify-content-center px-5">
+                {wallet && <p> Wallet: {shortenAddress(wallet.publicKey.toBase58() || "")}</p>}
+                {wallet && <p className="px-2">  | </p>}
+                {wallet && <p> Balance: {(balance || 0).toLocaleString()} SOL </p>}
+              </div>
+              <div className="d-flex flex-wrap justify-content-center">
+                {wallet && <p className="px-2">Total Cavienant: {itemsAvailable}</p>}
+                {wallet && <p className="px-2">Released: {itemsRedeemed}</p>}
+                {wallet && <p className="px-2">Awaiting: {itemsRemaining}</p>}
+              </div>
+              <div className="d-flex flex-wrap justify-content-center">
+                <Button style ={{padding: "0px"}}
+                  disabled={isSoldOut || isMinting || !isActive}
+                  onClick={onMint}
+                  variant="contained"
+                  >                  
+                  {isSoldOut ? <p className="p-2 m-0">SOLD OUT</p> : (isActive && (isMinting ? (<CircularProgress />) : (wallet ? <p className="p-2 m-0">RELEASE 1</p> : (<ConnectButton>Connect Wallet</ConnectButton>))))}
+                  <Countdown date={1632615120 * 1000}
+                      onMount={({ completed }) => completed && setIsActive(true)}
+                      onComplete={() => setIsActive(true)}
+                      renderer={renderCounter}
+                      />
+                </Button>
+              </div>
+            </MintContainer>
+            <Snackbar
+              open={alertState.open}
+              autoHideDuration={6000}
+              onClose={() => setAlertState({ ...alertState, open: false })}
+              >
+              <Alert
                 onClose={() => setAlertState({ ...alertState, open: false })}
+                severity={alertState.severity}
                 >
-                <Alert
-                  onClose={() => setAlertState({ ...alertState, open: false })}
-                  severity={alertState.severity}
-                  >
-                  {alertState.message}
-                </Alert>
-              </Snackbar>
-            </div>
-            <div className="d-flex flex-wrap justify-content-center"> 
-              <p className="text-center"><small>You can release up to 9999 of 9999, but do it one at a time or The Cuymmandant's escape plan won't succeed and a possible Cavinant will fall in the attempt.</small></p>
-            </div>
+                {alertState.message}
+              </Alert>
+            </Snackbar>
+          </div>
+          <div className="d-flex flex-wrap justify-content-center"> 
+            <p className="text-center"><small>You can release up to 9999 of 9999, but do it one at a time or The Cuymmandant's escape plan won't succeed and a possible Cavinant will fall in the attempt.</small></p>
           </div>
         </div>
       </div>
-        <div className="col px-5">
-          <h3>Welcome to Cavyland</h3>
-          <p>The Cavinants are the Guinea Pigs who escaped from captivity and are building the raising Cavyland.</p>
-        </div>
+      <div className="col px-5">
+        <h3 id="About">Welcome to Cavyland</h3>
+        <p>The Cavinants are the Guinea Pigs who escaped from captivity and are building the raising Cavyland.</p>
+      </div>
       <div className="col px-5">
         <h2>Rarity</h2>
         <p>All the Cavinants are equal but nature gave them different attributes and personalities, making some cavys more ostentatious than others.</p>
       </div>
       <div className="col px-5">
-        <h2>Utility & Roadmap</h2>
+        <h2 id="Roadmap">Utility & Roadmap</h2>
         <p>Holding one or more Cavinants grants you access to many perks</p>
         <p>What we have and what we want</p>
         <ul>
